@@ -18,6 +18,42 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Inc\BasicModel.h" />
+    <ClInclude Include="Inc\BasicShader.h" />
+    <ClInclude Include="Inc\Camera.h" />
+    <ClInclude Include="Inc\Common.h" />
+    <ClInclude Include="Inc\Direct3D11.h" />
+    <ClInclude Include="Inc\FontShader.h" />
+    <ClInclude Include="Inc\Font_class.h" />
+    <ClInclude Include="Inc\InputHandler.h" />
+    <ClInclude Include="Inc\System.h" />
+    <ClInclude Include="Inc\Text.h" />
+    <ClInclude Include="Inc\TextureLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Scr\BasicModel.cpp" />
+    <ClCompile Include="Scr\BasicShader.cpp" />
+    <ClCompile Include="Scr\Camera.cpp" />
+    <ClCompile Include="Scr\Direct3D11.cpp" />
+    <ClCompile Include="Scr\FontShader.cpp" />
+    <ClCompile Include="Scr\Font_class.cpp" />
+    <ClCompile Include="Scr\InputHandler.cpp" />
+    <ClCompile Include="Scr\main.cpp" />
+    <ClCompile Include="Scr\System.cpp" />
+    <ClCompile Include="Scr\Text.cpp" />
+    <ClCompile Include="Scr\TextureLoader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Media\font.dds" />
+    <Image Include="Media\stone.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Media\fontdata.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\shaders.shader" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{8A2BCA7D-B63A-4F9F-A062-5DCC0CD93D51}</ProjectGuid>
@@ -71,6 +107,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -116,10 +153,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Scr\Source.cpp" />
-    <ClCompile Include="Scr\Source1.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
