@@ -27,9 +27,11 @@
     <ClInclude Include="Inc\FontShader.h" />
     <ClInclude Include="Inc\Font_class.h" />
     <ClInclude Include="Inc\InputHandler.h" />
+    <ClInclude Include="Inc\MyText.h" />
     <ClInclude Include="Inc\System.h" />
     <ClInclude Include="Inc\Text.h" />
     <ClInclude Include="Inc\TextureLoader.h" />
+    <ClInclude Include="Inc\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scr\BasicModel.cpp" />
@@ -40,24 +42,16 @@
     <ClCompile Include="Scr\Font_class.cpp" />
     <ClCompile Include="Scr\InputHandler.cpp" />
     <ClCompile Include="Scr\main.cpp" />
+    <ClCompile Include="Scr\MyText.cpp" />
     <ClCompile Include="Scr\System.cpp" />
     <ClCompile Include="Scr\Text.cpp" />
     <ClCompile Include="Scr\TextureLoader.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Media\font.dds" />
-    <Image Include="Media\stone.dds" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Media\fontdata.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Media\shaders.shader" />
+    <ClCompile Include="Scr\Timer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{8A2BCA7D-B63A-4F9F-A062-5DCC0CD93D51}</ProjectGuid>
-    <RootNamespace>Project1</RootNamespace>
+    <ProjectGuid>{102540E3-2609-4040-8060-EEAFA539126C}</ProjectGuid>
+    <RootNamespace>Project2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -78,7 +72,8 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -105,9 +100,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <SourcePath>$(SourcePath)</SourcePath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -123,7 +119,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/I \inc %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\Wycko\Source\Repos\DirectXTK\Inc;$(ProjectDir)Inc;$(ProjectDir)Scr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Users\Wycko\Source\Repos\DirectXTK\Bin\Desktop_2017_Win10\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

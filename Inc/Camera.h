@@ -31,13 +31,13 @@ public:
 
 	void setmove( const DirectX::XMFLOAT3 _move, const DirectX::XMFLOAT3 _rot )
 	{
-		m_CamRotation.x = _rot.x / 10;
-		m_CamRotation.y = _rot.y / 10;
-		m_CamRotation.z = _rot.z / 10;
+		m_CamRotation.x += _rot.x / 10;
+		m_CamRotation.y += _rot.y / 10;
+		m_CamRotation.z += _rot.z / 10;
 
 		DirectX::XMVECTOR tmp;
 		tmp = DirectX::XMLoadFloat3( &_move );
-		tmp = DirectX::XMVectorScale( tmp, 0.0005f );
+		tmp = DirectX::XMVectorScale( tmp, 0.005f );
 		DirectX::XMStoreFloat3( &m_Velocity, tmp );
 	}
 

@@ -17,6 +17,7 @@ using namespace std;
 // MY CLASS INCLUDES //
 ///////////////////////
 #include "textureloader.h"
+#include "Timer.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,22 +42,25 @@ public:
 	FontClass();
 	~FontClass();
 
-	bool Initialize( ID3D11Device*, char*, WCHAR* );
+	bool Initialize( ID3D11Device*, const char*, const WCHAR* );
 	void Shutdown();
 
 	ID3D11ShaderResourceView* GetTexture();
 
-	void BuildVertexArray( void*, char*, float, float );
+	void BuildVertexArray( void*, const char*, float, float );
 
 private:
-	bool LoadFontData( char* );
+	bool LoadFontData( const char* );
 	void ReleaseFontData();
-	bool LoadTexture( ID3D11Device*, WCHAR* );
+	bool LoadTexture( ID3D11Device*, const WCHAR* );
 	void ReleaseTexture();
 
 private:
 	FontType* m_Font;
 	TextureLoader* m_Texture = nullptr;
+
+	Timer m_Time;
 };
 
-#endif
+
+#endif //!_FONTCLASS_H_

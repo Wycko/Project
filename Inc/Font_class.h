@@ -42,9 +42,9 @@ public:
 	bool Render( ID3D11DeviceContext*, int, XMFLOAT4X4, XMFLOAT4X4, XMFLOAT4X4, ID3D11ShaderResourceView*, XMFLOAT4 );
 
 private:
-	bool InitializeShader( ID3D11Device*, HWND, WCHAR*, WCHAR* );
+	bool InitializeShader( ID3D11Device*, HWND, LPCWCHAR, LPCWCHAR );
 	void ShutdownShader();
-	void OutputShaderErrorMessage( ID3D10Blob*, HWND, WCHAR* );
+	void OutputShaderErrorMessage( ID3D10Blob*, HWND, LPCWCHAR );
 
 	bool SetShaderParameters( ID3D11DeviceContext*, XMFLOAT4X4, XMFLOAT4X4, XMFLOAT4X4, ID3D11ShaderResourceView*, XMFLOAT4 );
 	void RenderShader( ID3D11DeviceContext*, int );
@@ -58,4 +58,5 @@ private:
 	ID3D11Buffer* m_pixelBuffer;
 };
 
-#endif
+
+#endif //!_FONTSHADERCLASS_H_

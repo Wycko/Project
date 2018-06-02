@@ -46,7 +46,7 @@ public:
 	bool KeyIsPressed( const KeyboardButton Key ) const;
 	bool MouseIsPressed( const MouseButton Button ) const;
 
-	DirectX::XMFLOAT3 GetMouseMove() const;
+	DirectX::XMFLOAT3 GetMouseMove();
 	void GetWheelData( short& roll, short& side )
 	{
 		if( roll != 0 )
@@ -86,6 +86,6 @@ private:
 
 	Mouse m_Mouse;
 };
+
+
 #endif // !_INPUHANDLER_H_
-
-

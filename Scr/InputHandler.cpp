@@ -63,9 +63,15 @@ bool InputHandler::MouseIsPressed( const MouseButton Button ) const
 	return m_Mouse.MouseStates[ Button ];
 }
 
-DirectX::XMFLOAT3 InputHandler::GetMouseMove() const
+DirectX::XMFLOAT3 InputHandler::GetMouseMove()
 {
-	return DirectX::XMFLOAT3( m_Mouse.m_MouseLast.y, m_Mouse.m_MouseLast.x, 0.0f );
+	DirectX::XMFLOAT3 temp = { m_Mouse.m_MouseLast.y, m_Mouse.m_MouseLast.x, 0 };
+	m_Mouse.m_MouseLast.y = 0;
+	m_Mouse.m_MouseLast.x = 0;
+	//m_Mouse.m_lastWheelY = 0;
+	//m_Mouse.m_lastWheelX = 0;
+
+	return temp;
 }
 
 void InputHandler::OnKeyPressed( const char Key )
@@ -91,8 +97,8 @@ LRESULT InputHandler::InputUpdate( LPARAM lparam )
 	UINT dwSize;
 
 	GetRawInputData( ( HRAWINPUT )lparam, RID_INPUT, NULL, &dwSize, sizeof( RAWINPUTHEADER ) );
-	
-	auto lpb = std::make_unique< new BYTE[ dwSize ] >();
+
+	auto lpb = std::make_unique < BYTE[] >( dwSize );
 	//LPBYTE lpb = new BYTE[ dwSize ];
 
 	if( GetRawInputData( ( HRAWINPUT )lparam, RID_INPUT, lpb.get(), &dwSize, sizeof( RAWINPUTHEADER ) ) != dwSize )
@@ -102,10 +108,8 @@ LRESULT InputHandler::InputUpdate( LPARAM lparam )
 
 	if( raw->header.dwType == RIM_TYPEMOUSE )
 	{
-		m_Mouse.Process( raw->data.mouse );		
-		s = "x = " + std::to_string( ( int )m_Mouse.m_MouseLast.x ) + " | y = " + std::to_string( ( int )m_Mouse.m_MouseLast.y );
-	}
-	
+		m_Mouse.Process( raw->data.mouse );
+	}	
 	else if( raw->header.dwType == RIM_TYPEKEYBOARD )
 	{
 		const RAWKEYBOARD keyboard = raw->data.keyboard;		
@@ -143,7 +147,7 @@ LRESULT InputHandler::InputUpdate( LPARAM lparam )
 			}
 		}
 
-		cosnt KeyboardButton key = MapButtons( VKey );
+		const KeyboardButton key = MapButtons( VKey );
 		
 		if( key != Invalid && key < NumberOfButtons )
 		{
@@ -156,10 +160,9 @@ LRESULT InputHandler::InputUpdate( LPARAM lparam )
 				KeyStates[ key ] = false;
 			}
 		}
-	}
-	
+	}	
 	else
-		return DefRawInputProc( raw, 1, sizeof( RAWINPUTHEADER ) );
+		return DefRawInputProc( &raw, 1, sizeof( RAWINPUTHEADER ) );
 
 	//delete[] lpb;
 

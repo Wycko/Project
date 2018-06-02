@@ -65,7 +65,7 @@ bool FontShaderClass::Render( ID3D11DeviceContext* deviceContext, int indexCount
 }
 
 
-bool FontShaderClass::InitializeShader( ID3D11Device* device, HWND hwnd, WCHAR* vsFilename, WCHAR* psFilename )
+bool FontShaderClass::InitializeShader( ID3D11Device* device, HWND hwnd, LPCWCHAR vsFilename, LPCWCHAR psFilename )
 {
 	HRESULT result;
 	ID3D10Blob* errorMessage;
@@ -275,7 +275,7 @@ void FontShaderClass::ShutdownShader()
 }
 
 
-void FontShaderClass::OutputShaderErrorMessage( ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename )
+void FontShaderClass::OutputShaderErrorMessage( ID3D10Blob* errorMessage, HWND hwnd, LPCWCHAR shaderFilename )
 {
 	char* compileErrors;
 	SIZE_T bufferSize, i;

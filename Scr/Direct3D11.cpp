@@ -131,7 +131,7 @@ bool Direct3D11::Init( const HWND hWnd, const int ScrWidth, const int ScrHeight 
 	};
 
 	// create a device, device context and swap chain using the information in the scd struct
-	hr = D3D11CreateDeviceAndSwapChain( NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, NULL, FeatureLevels, ARRAYSIZE( FeatureLevels ),
+	hr = D3D11CreateDeviceAndSwapChain( NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, NULL, FeatureLevels, _ARRAYSIZE( FeatureLevels ),
 										D3D11_SDK_VERSION, &scd, m_swapChain.GetAddressOf(), m_device.GetAddressOf(), &MaxSupportedFeatureLevel, m_deviceContext.GetAddressOf() );
 	if( FAILED( hr ) )
 		return false;
@@ -202,6 +202,7 @@ bool Direct3D11::Init( const HWND hWnd, const int ScrWidth, const int ScrHeight 
 
 	// Turn on the alpha blending.
 	m_deviceContext->OMSetBlendState( m_alphaEnableBlendingState.Get(), blendFactor, 0xffffffff );
+
 	return true;
 }
 
@@ -241,13 +242,13 @@ void Direct3D11::CreateAndSetViewport( const float Height, const float Width )
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
 	viewport.Width = Width;
-	viewport.Height = ScrHeight;
+	viewport.Height = Height;
 
 	m_deviceContext->RSSetViewports( 1, &viewport );
 }
 
 
-void Direct3D11::SetRasterizerState( const bool CcwWinding = false, const D3D11_FILL_MODE FillMode = D3D11_FILL_SOLID )
+void Direct3D11::SetRasterizerState( const bool CcwWinding, const D3D11_FILL_MODE FillMode )
 {
 	switch( FillMode )
 	{
@@ -272,7 +273,7 @@ void Direct3D11::SetRasterizerState( const bool CcwWinding = false, const D3D11_
 }
 
 
-HRESULT Direct3D11::CreateRasterizerStates()
+bool Direct3D11::CreateRasterizerStates()
 {
 	HRESULT hr = S_OK;
 	D3D11_RASTERIZER_DESC rasterDesc;
@@ -292,30 +293,33 @@ HRESULT Direct3D11::CreateRasterizerStates()
 	// Create the rasterizer state from the description we just filled out.
 	hr = m_device->CreateRasterizerState( &rasterDesc, m_rasterState[0].GetAddressOf() );
 	if( FAILED( hr ) )
-		return hr;	
+		return false;	
 	
 	rasterDesc.FrontCounterClockwise = true;	
 	
 	hr = m_device->CreateRasterizerState( &rasterDesc, m_rasterState[1].GetAddressOf() );
 	if( FAILED( hr ) )
-		return hr;
+		return false;
 	
 	rasterDesc.FillMode = D3D11_FILL_WIREFRAME;
 	
 	hr = m_device->CreateRasterizerState( &rasterDesc, m_rasterState[3].GetAddressOf() );
 	if( FAILED( hr ) )
-		return hr;
+		return false;
 	
 	rasterDesc.FrontCounterClockwise = false;	
 	
 	hr = m_device->CreateRasterizerState( &rasterDesc, m_rasterState[2].GetAddressOf() );
 	if( FAILED( hr ) )
-		return hr;	
+		return false;
+
+	return true;
 }
 
 
 void Direct3D11::Resize( LPARAM lParam )
 {
+	HRESULT hr = S_OK;
 	UINT width, height;
 	
 	height = HIWORD( lParam );
@@ -328,7 +332,11 @@ void Direct3D11::Resize( LPARAM lParam )
 	ID3D11Texture2D *pBackBuffer = nullptr;
 	hr = m_swapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );
 	if( FAILED( hr ) )
-		return false;
+	{
+		pBackBuffer->Release();
+		pBackBuffer = nullptr;
+		return;
+	}
 
 	// use the back buffer address to create the render target
 	hr = m_device->CreateRenderTargetView( pBackBuffer, NULL, m_renderTargetView.GetAddressOf() );
@@ -336,7 +344,7 @@ void Direct3D11::Resize( LPARAM lParam )
 	{
 		pBackBuffer->Release();
 		pBackBuffer = nullptr;
-		return false;
+		return;
 	}
 
 	pBackBuffer->Release();

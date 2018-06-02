@@ -21,6 +21,7 @@ TextureLoader::~TextureLoader()
 	}
 }
 
+
 bool TextureLoader::LoadDDSfromFile( ID3D11Device* Device, const LPCWSTR Filename )
 {
 	HRESULT hr;
@@ -40,6 +41,7 @@ bool TextureLoader::LoadDDSfromFile( ID3D11Device* Device, const LPCWSTR Filenam
 
 	return true;
 }
+
 
 ID3D11ShaderResourceView* TextureLoader::GetTexture() const
 {

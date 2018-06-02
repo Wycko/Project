@@ -71,6 +71,9 @@ bool System::Init( const HINSTANCE hInstance, const int nCmdShow )
 		return false;
 	}
 
+	if( !m_MyText.Initialize( m_Direct3D11->GetDevice(), m_Camera.GetViewMatrix() ) )
+		return false;
+
 	return true;
 }
 
@@ -135,6 +138,7 @@ LRESULT WINAPI System::_HandleMsgSetup( HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }
 
+
 LRESULT WINAPI System::_HandleMsgThunk( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	// retrieve ptr to window class
@@ -142,6 +146,7 @@ LRESULT WINAPI System::_HandleMsgThunk( HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	// forward message to window class handler
 	return pWnd->HandleMsg( hWnd, msg, wParam, lParam );
 }
+
 
 LRESULT System::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
@@ -156,7 +161,7 @@ LRESULT System::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		break;
 
 	case WM_INPUT:
-		s = m_Input.InputUpdate( lParam );
+		return m_Input.InputUpdate( lParam );
 		break;
 	}
 
@@ -231,7 +236,63 @@ void System::Draw()
 	DirectX::XMFLOAT4X4 worldMatrix;
 	DirectX::XMStoreFloat4x4( &worldMatrix, m );
 
+	m_Timer.Start();
+	m_MyText.AddText( buffer1, DirectX::XMFLOAT2( 100.0f, 450.0f ) );
+	m_MyText.AddText( buffer2, DirectX::XMFLOAT2( 140.0f, 450.0f ) );
+	m_MyText.AddText( buffer3, DirectX::XMFLOAT2( 180.0f, 450.0f ) );
+	m_MyText.AddText( "Hello", DirectX::XMFLOAT2( 300.0f, 100.0f ) );
+	m_MyText.AddText( "Hello World Hello World Hello World Hello World Hello World Hello World\n"
+		"Hello World Hello World Hello World Hello World Hello World Hello World\n"
+		"Hello World Hello World Hello World Hello World Hello World Hello World\n"
+		"Hello World Hello World Hello World Hello World Hello World Hello World\n", DirectX::XMFLOAT2( 400.0f, 300.0f ) );
+	temp = ( int )m_Timer.GetElapsedTime();
+	min2 = std::min( min2, temp );
+	max2 = std::max( max2, temp );
+	avg2 += temp;
+
+	m_Timer.Start();
+	m_MyText.RenderText( m_Direct3D11->GetDeviceContext(), m_Camera.GetOrthograficMatrix() );
+	temp = (int)m_Timer.GetElapsedTime();
+	min = std::min( min, temp );
+	max = std::max( max, temp );
+	avg += temp;
+
+	m_Timer.Start();
 	m_Text->Render( m_Direct3D11->GetDeviceContext(), worldMatrix, m_Camera.GetOrthograficMatrix(), const_cast< char* >( s.c_str() ) );
+	temp = (int)m_Timer.GetElapsedTime();
+	/*min2 = std::min( min2, temp );
+	max2 = std::max( max2, temp );
+	avg2 += temp;*/
+
+	framecount++;
+	if( m_Timer.GetTime() >= 1000000 )
+	{
+		m_Timer.Reset();
+		avg2 /= framecount;
+		avg /= framecount;
+		//s = std::to_string( framecount ) + "\n" + std::to_string( min2 ) + " | " + std::to_string( max2 ) + " | " + std::to_string( avg2 )/* + "\n"
+		//	+ "Hello World Hello World Hello World Hello World Hello World Hello World\n"
+		//"Hello World Hello World Hello World Hello World Hello World Hello World\n"
+		//"Hello World Hello World Hello World Hello World Hello World Hello World\n"
+		//"Hello World Hello World Hello World Hello World Hello World Hello World\n"
+		//"Hello World Hello World Hello World Hello World Hello World Hello World\n"
+		//"Hello World Hello World Hello World Hello World Hello World Hello World\n"
+		//	"Hello World Hello World Hello World Hello World Hello World Hello World\n"*/;
+
+		s = std::to_string( min ) + " | " + std::to_string( max ) + " | " + std::to_string( avg ) + "\n" + std::to_string( min2 ) + " | " + std::to_string( max2 ) + " | " + std::to_string( avg2 );
+
+		_itoa_s( framecount, buffer1, 10 );
+		_itoa_s( max, buffer2, 10 );
+		_itoa_s( avg, buffer3, 10 );
+
+		framecount = 0;
+		avg = 0;
+		avg2 = 0;
+		min = UINT8_MAX;
+		max = -UINT8_MAX;
+		min2 = UINT8_MAX;
+		max2 = -UINT8_MAX;
+	}
 }
 
 

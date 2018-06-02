@@ -40,7 +40,7 @@ public:
 private:
 
 	void	CreateAndSetViewport( const float Height, const float Width );
-	HRESULT	CreateRasterizerStates();
+	bool	CreateRasterizerStates();
 	
 
 	Microsoft::WRL::ComPtr<	IDXGISwapChain >			m_swapChain;

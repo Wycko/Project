@@ -15,7 +15,7 @@ FontClass::~FontClass()
 }
 
 
-bool FontClass::Initialize( ID3D11Device* device, char* fontFilename, WCHAR* textureFilename )
+bool FontClass::Initialize( ID3D11Device* device, const char* fontFilename, const WCHAR* textureFilename )
 {
 	bool result;
 
@@ -50,7 +50,7 @@ void FontClass::Shutdown()
 }
 
 
-bool FontClass::LoadFontData( char* filename )
+bool FontClass::LoadFontData( const char* filename )
 {
 	ifstream fin;
 	int i;
@@ -110,7 +110,7 @@ void FontClass::ReleaseFontData()
 }
 
 
-bool FontClass::LoadTexture( ID3D11Device* device, WCHAR* filename )
+bool FontClass::LoadTexture( ID3D11Device* device, const WCHAR* filename )
 {
 	bool result;
 	m_Texture = new TextureLoader;
@@ -142,11 +142,13 @@ ID3D11ShaderResourceView* FontClass::GetTexture()
 }
 
 
-void FontClass::BuildVertexArray( void* vertices, char* sentence, float drawX, float drawY )
+void FontClass::BuildVertexArray( void* vertices, const char* sentence, float drawX, float drawY )
 {
+	m_Time.Start();
+
 	VertexType* vertexPtr;
 	int numLetters, index, i, letter;
-
+	float off = drawX;
 
 	// Coerce the input vertices into a VertexType structure.
 	vertexPtr = (VertexType*)vertices;
@@ -166,6 +168,11 @@ void FontClass::BuildVertexArray( void* vertices, char* sentence, float drawX, f
 		if( letter == 0 )
 		{
 			drawX = drawX + 3.0f;
+		}
+		else if( sentence[ i ] == '\n' )
+		{
+			drawY -= 16.0f;
+			drawX = off;
 		}
 		else
 		{
@@ -199,6 +206,9 @@ void FontClass::BuildVertexArray( void* vertices, char* sentence, float drawX, f
 			drawX = drawX + m_Font[letter].size + 1.0f;
 		}
 	}
+
+	int Z = (int)m_Time.GetElapsedTime();
+	int a = Z;
 
 	return;
 }

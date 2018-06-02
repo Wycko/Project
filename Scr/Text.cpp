@@ -40,7 +40,7 @@ bool TextClass::Initialize( ID3D11Device* device, ID3D11DeviceContext* deviceCon
 	}
 
 	// Initialize the font object.
-	result = m_Font->Initialize( device, "fontdata.txt", L"font2.dds" );
+	result = m_Font->Initialize( device, "fontdata.txt", L"font.dds" );
 	if( !result )
 	{
 		MessageBox( hwnd, L"Could not initialize the font object.", L"Error", MB_OK );
@@ -77,7 +77,7 @@ bool TextClass::Initialize( ID3D11Device* device, ID3D11DeviceContext* deviceCon
 	}
 
 	// Initialize the first sentence.
-	result = InitializeSentence( &m_sentence2, 16, device );
+	result = InitializeSentence( &m_sentence2, 600, device );
 	if( !result )
 	{
 		return false;
@@ -122,18 +122,18 @@ void TextClass::Shutdown()
 }
 
 
-bool TextClass::Render( ID3D11DeviceContext* deviceContext, XMFLOAT4X4 worldMatrix, XMFLOAT4X4 orthoMatrix, char* txt )
+bool TextClass::Render( ID3D11DeviceContext* deviceContext, XMFLOAT4X4 worldMatrix, XMFLOAT4X4 orthoMatrix, const char* txt )
 {
 	bool result;
 
 	UpdateSentence( m_sentence2, txt, 100, 200, 1.0f, 1.0f, 0.0f, deviceContext );
 
 	// Draw the first sentence.
-	result = RenderSentence( deviceContext, m_sentence1, worldMatrix, orthoMatrix );
+	/*result = RenderSentence( deviceContext, m_sentence1, worldMatrix, orthoMatrix );
 	if( !result )
 	{
 		return false;
-	}
+	}*/
 
 	// Draw the second sentence.
 	result = RenderSentence( deviceContext, m_sentence2, worldMatrix, orthoMatrix );
@@ -251,7 +251,7 @@ bool TextClass::InitializeSentence( SentenceType** sentence, int maxLength, ID3D
 }
 
 
-bool TextClass::UpdateSentence( SentenceType* sentence, char* text, int positionX, int positionY, float red, float green, float blue,
+bool TextClass::UpdateSentence( SentenceType* sentence, const char* text, int positionX, int positionY, float red, float green, float blue,
 	ID3D11DeviceContext* deviceContext )
 {
 	int numLetters;

@@ -11,6 +11,9 @@
 #include "InputHandler.h"
 
 #include "Text.h"
+#include "Timer.h"
+
+#include "MyText.h"
 
 
 class System
@@ -38,8 +41,8 @@ private:
 	void Draw();
 	void HandleInput();
 
-	static constexpr wchar_t* m_WndClassName = L"Framework Window";
-	static constexpr wchar_t* m_WndCaption = L"Test Window";
+	const wchar_t* m_WndClassName = L"Framework Window";
+	const wchar_t* m_WndCaption = L"Test Window";
 
 	HWND m_hWnd;
 	HINSTANCE m_hInstance;
@@ -64,6 +67,22 @@ private:
 	std::string s;
 
 	TextClass* m_Text = nullptr;
+	Timer m_Timer;
+
+	int min = UINT8_MAX;
+	int max = -UINT8_MAX;
+	int avg = 0;
+	int min2 = UINT8_MAX;
+	int max2 = -UINT8_MAX;
+	int avg2 = 0;
+	int temp = 0;
+	int framecount = 0;
+
+	char buffer1[ 6 ];
+	char buffer2[ 6 ];
+	char buffer3[ 6 ];
+
+	MyText m_MyText;
 };
 
 
