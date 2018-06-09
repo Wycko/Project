@@ -203,5 +203,5 @@ void BasicShader::Render( ID3D11DeviceContext* DeviceContext, DirectX::XMFLOAT4X
 	DeviceContext->IASetInputLayout( pLayout );
 
 	// draw the vertex buffer to the back buffer
-	DeviceContext->Draw( 4, 0 );
+	DeviceContext->Draw( 3614*3, 0 );
 }

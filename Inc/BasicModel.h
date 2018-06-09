@@ -4,6 +4,8 @@
 #include "Common.h"
 #include "TextureLoader.h"
 
+#include "OBJ-Loader.h"
+
 
 class BasicModel
 {
@@ -24,6 +26,8 @@ private:
 
 	ID3D11Buffer *pVBuffer = nullptr;
 	TextureLoader m_Texture;
+
+	OBJLoader m_Loader;
 };
 
 

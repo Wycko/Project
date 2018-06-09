@@ -1,0 +1,145 @@
+# Blender MTL File: 'None'
+# Material Count: 13
+
+newmtl detail.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\details.tga
+
+newmtl fass
+Ns 780.392157
+Ka 0.501961 0.501961 0.501961
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\fass01.jpg
+
+newmtl fenster.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\Window.tga
+
+newmtl kaba.002
+Ns 780.392157
+Ka 0.501961 0.501961 0.501961
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\kaba.jpg
+
+newmtl kabi.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\kabi.jpg
+
+newmtl licht.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\licht.tga
+
+newmtl motor1.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\motor1.jpg
+
+newmtl opel_plane.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\opel_blitz_plane.jpg
+
+newmtl player.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\player.jpg
+
+newmtl pritsche.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\pritsche.jpg
+
+newmtl raeder.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\6pdr_Wheel.jpg
+
+newmtl rahmen.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\rahmen.jpg
+
+newmtl tools.002
+Ns 780.392157
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Wycko\Desktop\Neuer Ordner (2)\cubus_bw_faun_912-21\Tools.tga

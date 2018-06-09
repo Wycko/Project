@@ -3,7 +3,7 @@
 
 Timer::Timer()
 {
-	LARGE_INTEGER TicksPerSec = {};
+	LARGE_INTEGER TicksPerSec = { 0 };
 	QueryPerformanceFrequency( &TicksPerSec );
 	m_Frequency = TicksPerSec.QuadPart;
 

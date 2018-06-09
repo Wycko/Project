@@ -19,6 +19,18 @@
     <Filter Include="Source Files\Text">
       <UniqueIdentifier>{f8cf9c03-f4c7-44c6-a35f-3d4babf208ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\junk">
+      <UniqueIdentifier>{574aa7f0-6632-4e00-8039-a157cf781a70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\junk">
+      <UniqueIdentifier>{62230011-9764-4750-85fa-2610f5782682}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TEST">
+      <UniqueIdentifier>{2d64a12e-724d-49e2-bef4-8fe2f7de6d80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TEST">
+      <UniqueIdentifier>{60398154-1a63-42d7-8a37-9142f23523d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Common.h">
@@ -28,15 +40,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Inc\InputHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\TextureLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\BasicModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\BasicShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Inc\Camera.h">
@@ -60,6 +63,18 @@
     <ClInclude Include="Inc\Text.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\BasicModel.h">
+      <Filter>Header Files\junk</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\BasicShader.h">
+      <Filter>Header Files\junk</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\OBJ-Loader.h">
+      <Filter>Header Files\junk</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\TextureLoader.h">
+      <Filter>Header Files\junk</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scr\System.cpp">
@@ -77,15 +92,6 @@
     <ClCompile Include="Scr\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scr\TextureLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scr\BasicModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scr\BasicShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scr\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,6 +106,18 @@
     </ClCompile>
     <ClCompile Include="Scr\Text.cpp">
       <Filter>Source Files\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Scr\BasicModel.cpp">
+      <Filter>Source Files\junk</Filter>
+    </ClCompile>
+    <ClCompile Include="Scr\BasicShader.cpp">
+      <Filter>Source Files\junk</Filter>
+    </ClCompile>
+    <ClCompile Include="Scr\OBJ-Loader.cpp">
+      <Filter>Source Files\junk</Filter>
+    </ClCompile>
+    <ClCompile Include="Scr\TextureLoader.cpp">
+      <Filter>Source Files\junk</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
