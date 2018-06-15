@@ -19,38 +19,41 @@ BasicModel::~BasicModel()
 
 bool BasicModel::Create( ID3D11Device* Device )
 {
-	if( !m_Loader.LoadGeometryFromOBJ( "plane.obj" ) )
-		return false;
+	//if( !m_Loader.LoadGeometryFromOBJ( "plane.obj" ) )
+	//	return false;
 
-	HRESULT hr;
-	
-	// create a quad
-	VERTEX OurVertices[] =
-	{
-		{ DirectX::XMFLOAT3( -0.5f, -0.5f, 0.0f ), DirectX::XMFLOAT2( 0.0f, 1.0f ) },
-		{ DirectX::XMFLOAT3( -0.5f, 0.5f, 0.0f ), DirectX::XMFLOAT2( 0.0f, 0.0f ) },
-		{ DirectX::XMFLOAT3( 0.5f, -0.5f, 0.0f ), DirectX::XMFLOAT2( 1.0f, 1.0f ) },
-		{ DirectX::XMFLOAT3( 0.5f, 0.5f, 0.0f ), DirectX::XMFLOAT2( 1.0f, 0.0f ) }
-	};
+	//HRESULT hr;
+	//
+	//// create a quad
+	//VERTEX OurVertices[] =
+	//{
+	//	{ DirectX::XMFLOAT3( -0.5f, -0.5f, 0.0f ), DirectX::XMFLOAT2( 0.0f, 1.0f ) },
+	//	{ DirectX::XMFLOAT3( -0.5f, 0.5f, 0.0f ), DirectX::XMFLOAT2( 0.0f, 0.0f ) },
+	//	{ DirectX::XMFLOAT3( 0.5f, -0.5f, 0.0f ), DirectX::XMFLOAT2( 1.0f, 1.0f ) },
+	//	{ DirectX::XMFLOAT3( 0.5f, 0.5f, 0.0f ), DirectX::XMFLOAT2( 1.0f, 0.0f ) }
+	//};
 
-	// create the vertex buffer
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory( &bd, sizeof( bd ) );
+	//// create the vertex buffer
+	//D3D11_BUFFER_DESC bd;
+	//ZeroMemory( &bd, sizeof( bd ) );
 
-	bd.Usage = D3D11_USAGE_DEFAULT;                // write access access by CPU and GPU
-	//bd.ByteWidth = sizeof( OurVertices );             // size is the VERTEX struct * 3
-	bd.ByteWidth = m_Loader.GetSize();
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-	bd.CPUAccessFlags = 0;
+	//bd.Usage = D3D11_USAGE_DEFAULT;                // write access access by CPU and GPU
+	////bd.ByteWidth = sizeof( OurVertices );             // size is the VERTEX struct * 3
+	//bd.ByteWidth = m_Loader.GetSize();
+	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	//bd.CPUAccessFlags = 0;
 
-	D3D11_SUBRESOURCE_DATA vertexData;
+	//D3D11_SUBRESOURCE_DATA vertexData;
 
-	vertexData.pSysMem = m_Loader.GetData();
-	vertexData.SysMemPitch = 0;
-	vertexData.SysMemSlicePitch = 0;
+	//vertexData.pSysMem = m_Loader.GetData();
+	//vertexData.SysMemPitch = 0;
+	//vertexData.SysMemSlicePitch = 0;
 
-	hr = Device->CreateBuffer( &bd, &vertexData, &pVBuffer );	// create the buffer
-	if( FAILED( hr ) )
+	//hr = Device->CreateBuffer( &bd, &vertexData, &pVBuffer );	// create the buffer
+	//if( FAILED( hr ) )
+	//	return false;
+
+	if( !m_Mesh.CreateMesh( Device, "plane.obj" ) )
 		return false;
 
 	if( !m_Texture.LoadDDSfromFile( Device, L"stone.dds" ) )
@@ -64,7 +67,7 @@ void BasicModel::Render( ID3D11DeviceContext * DeviceContext )
 {
 	UINT stride = sizeof( VERTEX );
 	UINT offset = 0;
-	DeviceContext->IASetVertexBuffers( 0, 1, &pVBuffer, &stride, &offset );
+	DeviceContext->IASetVertexBuffers( 0, 1, m_Mesh.GetBuffer(0), &stride, &offset );
 
 	// select which primtive type we are using
 	DeviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );

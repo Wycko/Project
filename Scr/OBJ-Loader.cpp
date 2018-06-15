@@ -153,7 +153,7 @@ bool OBJLoader::LoadGeometryFromOBJ( const char* Filename )
 
 void OBJLoader::BuildFormData()
 {
-	short NumIndices = m_Faces.size() * 3;
+	//short NumIndices = m_Faces.size() * 3;
 
 	VertexData Vertex;
 

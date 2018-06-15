@@ -13,84 +13,45 @@ InputHandler::~InputHandler()
 
 bool InputHandler::Initialize( const HWND hWnd )
 {
-	Rid[ 0 ].usUsagePage = 0x01;
-	Rid[ 0 ].usUsage = 0x02;
-	Rid[ 0 ].dwFlags = 0;// RIDEV_INPUTSINK;
-	Rid[ 0 ].hwndTarget = hWnd;
+	m_Rid[ 0 ].usUsagePage	= 0x01;
+	m_Rid[ 0 ].usUsage		= 0x02;
+	m_Rid[ 0 ].dwFlags		= 0;// m_RidEV_INPUTSINK;
+	m_Rid[ 0 ].hwndTarget	= hWnd;
 
-	Rid[ 1 ].usUsagePage = 0x01;
-	Rid[ 1 ].usUsage = 0x06;
-	Rid[ 1 ].dwFlags = 0;// RIDEV_INPUTSINK;
-	Rid[ 1 ].hwndTarget = hWnd;
+	m_Rid[ 1 ].usUsagePage	= 0x01;
+	m_Rid[ 1 ].usUsage		= 0x06;
+	m_Rid[ 1 ].dwFlags		= 0;// m_RidEV_INPUTSINK;
+	m_Rid[ 1 ].hwndTarget	= hWnd;
 
-	UINT nDevices;
-	PRAWINPUTDEVICELIST pRawInputDeviceList;
-
-	if( GetRawInputDeviceList( NULL, &nDevices, sizeof( RAWINPUTDEVICELIST ) ) != 0 )
-		return false;
-
-	if( ( pRawInputDeviceList = reinterpret_cast< PRAWINPUTDEVICELIST >( malloc( sizeof( RAWINPUTDEVICELIST ) * nDevices ) ) ) == NULL )
-		return false;
-
-	if( GetRawInputDeviceList( pRawInputDeviceList, &nDevices, sizeof( RAWINPUTDEVICELIST ) ) != -1 )
-	{
-		for( int i = 0; i < ( int )nDevices; i++ )
-		{
-			WCHAR data[ 256 ] = { 0 };
-			unsigned int num = 256;
-			GetRawInputDeviceInfo( pRawInputDeviceList[ i ].hDevice, RIDI_DEVICENAME, data, &num );
-
-			RID_DEVICE_INFO rdi;
-			rdi.cbSize = sizeof( RID_DEVICE_INFO );
-
-			UINT cbSize = rdi.cbSize;
-			GetRawInputDeviceInfo( pRawInputDeviceList[ i ].hDevice, RIDI_DEVICEINFO, &rdi, &cbSize );
-		}
-	}
-
-	free( pRawInputDeviceList );
-
-	return RegisterRawInputDevices( Rid, 2, sizeof( Rid[ 0 ] ) );
+	return RegisterRawInputDevices( m_Rid, 2, sizeof( m_Rid[ 0 ] ) );
 }
+
 
 bool InputHandler::KeyIsPressed( const KeyboardButton Key ) const
 {
-	return KeyStates[ Key ];
+	assert( Key >= 0 && Key < KeyboardButton::NumberOfButtons );
+	return m_KeyStates[ Key ];
 }
+
 
 bool InputHandler::MouseIsPressed( const MouseButton Button ) const
-{
-	return m_Mouse.MouseStates[ Button ];
+{	
+	assert( Button >= 0 && Button < MouseButton::NumberOfMouseButtons );
+	return m_MouseStates[ Button ];
 }
 
-DirectX::XMFLOAT3 InputHandler::GetMouseMove()
-{
-	DirectX::XMFLOAT3 temp = { m_Mouse.m_MouseLast.y, m_Mouse.m_MouseLast.x, 0 };
-	m_Mouse.m_MouseLast.y = 0;
-	m_Mouse.m_MouseLast.x = 0;
-	//m_Mouse.m_lastWheelY = 0;
-	//m_Mouse.m_lastWheelX = 0;
 
-	return temp;
+DirectX::XMFLOAT4 InputHandler::GetMouse() const
+{
+	return m_Mouse;
 }
 
-void InputHandler::OnKeyPressed( const char Key )
+
+void InputHandler::ResetMouse()
 {
-	KeyboardButton key = MapButtons( Key );
-	if( key >= 0 && key < NumberOfButtons )
-	{
-		KeyStates[ key ] = true;
-	}
+	m_Mouse = { 0.0f, 0.0f, 0.0f, 0.0f };
 }
 
-void InputHandler::OnKeyReleased( const char Key )
-{
-	KeyboardButton key = MapButtons( Key );
-	if( key >= 0 && key < NumberOfButtons )
-	{
-		KeyStates[ key ] = false;
-	}
-}
 
 LRESULT InputHandler::InputUpdate( LPARAM lparam )
 {
@@ -99,22 +60,74 @@ LRESULT InputHandler::InputUpdate( LPARAM lparam )
 	GetRawInputData( ( HRAWINPUT )lparam, RID_INPUT, NULL, &dwSize, sizeof( RAWINPUTHEADER ) );
 
 	auto lpb = std::make_unique < BYTE[] >( dwSize );
-	//LPBYTE lpb = new BYTE[ dwSize ];
-
 	if( GetRawInputData( ( HRAWINPUT )lparam, RID_INPUT, lpb.get(), &dwSize, sizeof( RAWINPUTHEADER ) ) != dwSize )
 		OutputDebugString( TEXT( "GetRawInputData does not return correct size !\n" ) );
 
-	RAWINPUT* raw = reinterpret_cast< RAWINPUT* >( lpb.get() );	
-
+	RAWINPUT* raw = reinterpret_cast< RAWINPUT* >( lpb.get() );
 	if( raw->header.dwType == RIM_TYPEMOUSE )
 	{
-		m_Mouse.Process( raw->data.mouse );
-	}	
+		const RAWMOUSE mouse = raw->data.mouse;
+
+		m_Mouse.x = ( float )mouse.lLastX;
+		m_Mouse.y = ( float )mouse.lLastY;
+
+		switch( mouse.usButtonFlags )
+		{
+			case RI_MOUSE_BUTTON_1_DOWN:
+				m_MouseStates[ Mouse_Left_Button ] = true;
+				break;
+
+			case RI_MOUSE_BUTTON_2_DOWN:
+				m_MouseStates[ Mouse_Right_Button ] = true;
+				break;
+
+			case RI_MOUSE_BUTTON_3_DOWN:
+				m_MouseStates[ Mouse_Middle_Button ] = true;
+				break;
+
+			case RI_MOUSE_BUTTON_4_DOWN:
+				m_MouseStates[ Mouse_Extra_1_Button ] = true;
+				break;
+
+			case RI_MOUSE_BUTTON_5_DOWN:
+				m_MouseStates[ Mouse_Extra_2_Button ] = true;
+				break;
+
+			case RI_MOUSE_BUTTON_1_UP:
+				m_MouseStates[ Mouse_Left_Button ] = false;
+				break;
+
+			case RI_MOUSE_BUTTON_2_UP:
+				m_MouseStates[ Mouse_Right_Button ] = false;
+				break;
+
+			case RI_MOUSE_BUTTON_3_UP:
+				m_MouseStates[ Mouse_Middle_Button ] = false;
+				break;
+
+			case RI_MOUSE_BUTTON_4_UP:
+				m_MouseStates[ Mouse_Extra_1_Button ] = false;
+				break;
+
+			case RI_MOUSE_BUTTON_5_UP:
+				m_MouseStates[ Mouse_Extra_2_Button ] = false;
+				break;
+
+			case RI_MOUSE_WHEEL:
+				m_Mouse.z = ( float )( ( short )mouse.usButtonData / WHEEL_DELTA );
+				break;
+
+			case RI_MOUSE_HWHEEL:
+				m_Mouse.w = ( float )( ( short )mouse.usButtonData / WHEEL_DELTA );
+				break;
+		}
+	}
+
 	else if( raw->header.dwType == RIM_TYPEKEYBOARD )
 	{
-		const RAWKEYBOARD keyboard = raw->data.keyboard;		
-		USHORT VKey = keyboard.VKey;
+		const RAWKEYBOARD keyboard = raw->data.keyboard;
 
+		USHORT VKey = keyboard.VKey;
 		if( VKey == VK_CONTROL || VK_SHIFT || VK_MENU )
 		{
 			switch( VKey )
@@ -149,25 +162,21 @@ LRESULT InputHandler::InputUpdate( LPARAM lparam )
 
 		const KeyboardButton key = MapButtons( VKey );
 		
-		if( key != Invalid && key < NumberOfButtons )
+		if( key != Invalid && key )
 		{
 			if( keyboard.Flags == RI_KEY_MAKE || keyboard.Flags == RI_KEY_E0 )
-			{
-				KeyStates[ key ] = true;
-			}
+				m_KeyStates[ key ] = true;
+
 			else if( keyboard.Flags == RI_KEY_BREAK || keyboard.Flags == ( RI_KEY_E0 | RI_KEY_BREAK ) )
-			{
-				KeyStates[ key ] = false;
-			}
+				m_KeyStates[ key ] = false;
 		}
 	}	
 	else
 		return DefRawInputProc( &raw, 1, sizeof( RAWINPUTHEADER ) );
 
-	//delete[] lpb;
-
 	return 0;
 }
+
 
 InputHandler::KeyboardButton InputHandler::MapButtons( USHORT Key )
 {
@@ -208,56 +217,8 @@ InputHandler::KeyboardButton InputHandler::MapButtons( USHORT Key )
 
 	case VK_ESCAPE:
 		return KeyboardButton::ExitApp;
-	}
 
-	return KeyboardButton::Invalid;
-}
-
-InputHandler::Mouse::Mouse()
-{
-}
-
-InputHandler::Mouse::~Mouse()
-{
-}
-
-void InputHandler::Mouse::Process( RAWMOUSE mouse )
-{
-	m_MouseLast.x += ( float )mouse.lLastX;
-	m_MouseLast.y += ( float )mouse.lLastY;
-
-	switch( mouse.usButtonFlags )
-	{
-	case RI_MOUSE_BUTTON_1_DOWN:
-		MouseStates[ Mouse_Left_Button ] = true;
-		break;
-
-	case RI_MOUSE_BUTTON_2_DOWN:
-		MouseStates[ Mouse_Right_Button ] = true;
-		break;
-
-	case RI_MOUSE_BUTTON_3_DOWN:
-		MouseStates[ Mouse_Middle_Button ] = true;
-		break;
-
-	case RI_MOUSE_BUTTON_1_UP:
-		MouseStates[ Mouse_Left_Button ] = false;
-		break;
-
-	case RI_MOUSE_BUTTON_2_UP:
-		MouseStates[ Mouse_Right_Button ] = false;
-		break;
-
-	case RI_MOUSE_BUTTON_3_UP:
-		MouseStates[ Mouse_Middle_Button ] = false;
-		break;
-
-	case RI_MOUSE_WHEEL:
-		m_lastWheelY += ( short )mouse.usButtonData;
-		break;
-		
-	case RI_MOUSE_HWHEEL:
-		m_lastWheelX += ( short )mouse.usButtonData;
-		break;
+	default:
+		return KeyboardButton::Invalid;
 	}
 }

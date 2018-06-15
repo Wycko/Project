@@ -75,6 +75,12 @@
     <ClInclude Include="Inc\TextureLoader.h">
       <Filter>Header Files\junk</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\New_OBJ-Loading.h">
+      <Filter>Header Files\TEST</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\VertexType.h">
+      <Filter>Header Files\TEST</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scr\System.cpp">
@@ -119,5 +125,13 @@
     <ClCompile Include="Scr\TextureLoader.cpp">
       <Filter>Source Files\junk</Filter>
     </ClCompile>
+    <ClCompile Include="Scr\New_OBJ-Loading.cpp">
+      <Filter>Source Files\TEST</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders.shader">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

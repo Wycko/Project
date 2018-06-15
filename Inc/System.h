@@ -40,7 +40,6 @@ private:
 	void Update();
 	void Draw();
 	void HandleInput();
-
 	const wchar_t* m_WndClassName = L"Framework Window";
 	const wchar_t* m_WndCaption = L"Test Window";
 
@@ -59,9 +58,6 @@ private:
 	///////////////
 	///////////////
 	Camera m_Camera;
-	DirectX::XMFLOAT3 move = DirectX::XMFLOAT3( 0.0f, 0.0f, 0.0f );
-	DirectX::XMFLOAT3 rot = DirectX::XMFLOAT3( 0.0f, 0.0f, 0.0f );
-	POINTS lastPoint;
 
 	InputHandler m_Input;
 	std::string s;

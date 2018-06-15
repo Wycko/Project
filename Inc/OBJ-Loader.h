@@ -23,7 +23,7 @@ public:
 	}
 	UINT GetSize()
 	{
-		return m_VertexBuffer.size() * sizeof( VertexData );
+		return ( UINT )( m_VertexBuffer.size() * sizeof( VertexData ) );
 	}
 
 

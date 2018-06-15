@@ -3,8 +3,6 @@
 
 System::System()
 {
-	lastPoint.x = 0;
-	lastPoint.y = 0;
 }
 
 
@@ -217,13 +215,13 @@ bool System::Init_D3D11()
 
 void System::Render()
 {
+	HandleInput();
+
 	Update();
 
 	m_Direct3D11->BeginSceen();
 	Draw();
 	m_Direct3D11->EndSceen();
-
-	HandleInput();
 }
 
 
@@ -241,10 +239,10 @@ void System::Draw()
 	m_MyText.AddText( buffer2, DirectX::XMFLOAT2( 140.0f, 450.0f ) );
 	m_MyText.AddText( buffer3, DirectX::XMFLOAT2( 180.0f, 450.0f ) );
 	m_MyText.AddText( "Hello", DirectX::XMFLOAT2( 300.0f, 100.0f ) );
-	m_MyText.AddText( "Hello World Hello World Hello World Hello World Hello World Hello World\n"
+	/*m_MyText.AddText( "Hello World Hello World Hello World Hello World Hello World Hello World\n"
 		"Hello World Hello World Hello World Hello World Hello World Hello World\n"
 		"Hello World Hello World Hello World Hello World Hello World Hello World\n"
-		"Hello World Hello World Hello World Hello World Hello World Hello World\n", DirectX::XMFLOAT2( 400.0f, 300.0f ) );
+		"Hello World Hello World Hello World Hello World Hello World Hello World\n", DirectX::XMFLOAT2( 400.0f, 300.0f ) );*/
 	temp = ( int )m_Timer.GetElapsedTime();
 	min2 = std::min( min2, temp );
 	max2 = std::max( max2, temp );
@@ -263,6 +261,12 @@ void System::Draw()
 	/*min2 = std::min( min2, temp );
 	max2 = std::max( max2, temp );
 	avg2 += temp;*/
+}
+
+
+void System::Update()
+{
+	m_Camera.Update();
 
 	framecount++;
 	if( m_Timer.GetTime() >= 1000000 )
@@ -278,8 +282,8 @@ void System::Draw()
 		//"Hello World Hello World Hello World Hello World Hello World Hello World\n"
 		//"Hello World Hello World Hello World Hello World Hello World Hello World\n"
 		//	"Hello World Hello World Hello World Hello World Hello World Hello World\n"*/;
-
-		s = std::to_string( min ) + " | " + std::to_string( max ) + " | " + std::to_string( avg ) + "\n" + std::to_string( min2 ) + " | " + std::to_string( max2 ) + " | " + std::to_string( avg2 );
+		DirectX::XMFLOAT3 cam = m_Camera.GetRotation();
+		s = std::to_string( cam.x ) + " | " + std::to_string( cam.y ) + " | " + std::to_string( cam.z ) + "\n" + std::to_string( min2 ) + " | " + std::to_string( max2 ) + " | " + std::to_string( avg2 );
 
 		_itoa_s( framecount, buffer1, 10 );
 		_itoa_s( max, buffer2, 10 );
@@ -296,12 +300,6 @@ void System::Draw()
 }
 
 
-void System::Update()
-{
-	m_Camera.Update();
-}
-
-
 void System::HandleInput()
 {
 	if( m_Input.KeyIsPressed( m_Input.ExitApp ) )
@@ -309,28 +307,12 @@ void System::HandleInput()
 		PostQuitMessage( 0 );
 		return;
 	}
-	
-	move = DirectX::XMFLOAT3( 0.0f, 0.0f, 0.0f );
-	if( m_Input.KeyIsPressed( m_Input.Movement_Forward ) )
-		move.z += 1.0f;
-	if( m_Input.KeyIsPressed( m_Input.Movement_Backward ) )
-		move.z -= 1.0f;
-	if( m_Input.KeyIsPressed( m_Input.Movement_Right ) )
-		move.x += 1.0f;
-	if( m_Input.KeyIsPressed( m_Input.Movement_Left ) )
-		move.x -= 1.0f;
-	if( m_Input.KeyIsPressed( m_Input.Movement_Up ) )
-		move.y += 1.0f;
-	if( m_Input.KeyIsPressed( m_Input.Movement_Down ) )
-		move.y -= 1.0f;
 
-	short roll;
-	short side;
-	m_Input.GetWheelData( roll, side );
+	m_Camera.Movement( m_Input );
 
-	rot = m_Input.GetMouseMove();
-	rot.z = side;
+	if( m_Input.MouseIsPressed( m_Input.Mouse_Right_Button ) )
+		m_Camera.LookAtPoint( { -10.0f, 2.0f, -6.0f } );
 
-	//if( m_Input.MouseIsPressed( m_Input.Mouse_Left_Button ) )
-		m_Camera.setmove( move, rot );
+	// Must only be called once at the end.
+	m_Input.ResetMouse();
 }

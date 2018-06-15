@@ -5,7 +5,7 @@
 #include "TextureLoader.h"
 
 #include "OBJ-Loader.h"
-
+#include "New_OBJ-Loading.h"
 
 class BasicModel
 {
@@ -28,6 +28,7 @@ private:
 	TextureLoader m_Texture;
 
 	OBJLoader m_Loader;
+	MeshMaster m_Mesh;
 };
 
 

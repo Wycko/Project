@@ -28,11 +28,13 @@
     <ClInclude Include="Inc\Font_class.h" />
     <ClInclude Include="Inc\InputHandler.h" />
     <ClInclude Include="Inc\MyText.h" />
+    <ClInclude Include="Inc\New_OBJ-Loading.h" />
     <ClInclude Include="Inc\OBJ-Loader.h" />
     <ClInclude Include="Inc\System.h" />
     <ClInclude Include="Inc\Text.h" />
     <ClInclude Include="Inc\TextureLoader.h" />
     <ClInclude Include="Inc\Timer.h" />
+    <ClInclude Include="Inc\VertexType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scr\BasicModel.cpp" />
@@ -44,11 +46,15 @@
     <ClCompile Include="Scr\InputHandler.cpp" />
     <ClCompile Include="Scr\main.cpp" />
     <ClCompile Include="Scr\MyText.cpp" />
+    <ClCompile Include="Scr\New_OBJ-Loading.cpp" />
     <ClCompile Include="Scr\OBJ-Loader.cpp" />
     <ClCompile Include="Scr\System.cpp" />
     <ClCompile Include="Scr\Text.cpp" />
     <ClCompile Include="Scr\TextureLoader.cpp" />
     <ClCompile Include="Scr\Timer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders.shader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
