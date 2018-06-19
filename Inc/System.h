@@ -12,6 +12,7 @@
 
 #include "Text.h"
 #include "Timer.h"
+#include "PerformanceLogger.h"
 
 #include "MyText.h"
 
@@ -36,8 +37,8 @@ private:
 	bool Init_Window( const int nCmdShow );
 	bool Init_D3D11();
 
-	void Render();
-	void Update();
+	void Render( double dt );
+	void Update( double dt );
 	void Draw();
 	void HandleInput();
 	const wchar_t* m_WndClassName = L"Framework Window";
@@ -63,20 +64,16 @@ private:
 	std::string s;
 
 	TextClass* m_Text = nullptr;
+	Timer m_GlobalTime;
 	Timer m_Timer;
 
-	int min = UINT8_MAX;
-	int max = -UINT8_MAX;
-	int avg = 0;
-	int min2 = UINT8_MAX;
-	int max2 = -UINT8_MAX;
-	int avg2 = 0;
-	int temp = 0;
+	PerformanceLogger m_Logger1;
+	PerformanceLogger m_Logger2;
 	int framecount = 0;
 
-	char buffer1[ 6 ];
-	char buffer2[ 6 ];
-	char buffer3[ 6 ];
+	char buffer1[ 15 ];
+	char buffer2[ 15 ];
+	char buffer3[ 15 ];
 
 	MyText m_MyText;
 };

@@ -79,6 +79,7 @@ bool System::Init( const HINSTANCE hInstance, const int nCmdShow )
 void System::Run()
 {
 	MSG msg = { 0 };
+	m_GlobalTime.Start();
 
 	bool run = true;
 	while( run )
@@ -91,7 +92,10 @@ void System::Run()
 			if( msg.message == WM_QUIT )
 				run = false;
 		}
-			Render();
+
+		double deltaTime = m_GlobalTime.GetElapsedTime();
+
+		Render( deltaTime );
 	}
 }
 
@@ -213,11 +217,11 @@ bool System::Init_D3D11()
 }
 
 
-void System::Render()
+void System::Render( double dt )
 {
 	HandleInput();
 
-	Update();
+	Update( dt );
 
 	m_Direct3D11->BeginSceen();
 	Draw();
@@ -234,7 +238,7 @@ void System::Draw()
 	DirectX::XMFLOAT4X4 worldMatrix;
 	DirectX::XMStoreFloat4x4( &worldMatrix, m );
 
-	m_Timer.Start();
+	m_Logger1.StartLog();
 	m_MyText.AddText( buffer1, DirectX::XMFLOAT2( 100.0f, 450.0f ) );
 	m_MyText.AddText( buffer2, DirectX::XMFLOAT2( 140.0f, 450.0f ) );
 	m_MyText.AddText( buffer3, DirectX::XMFLOAT2( 180.0f, 450.0f ) );
@@ -243,37 +247,31 @@ void System::Draw()
 		"Hello World Hello World Hello World Hello World Hello World Hello World\n"
 		"Hello World Hello World Hello World Hello World Hello World Hello World\n"
 		"Hello World Hello World Hello World Hello World Hello World Hello World\n", DirectX::XMFLOAT2( 400.0f, 300.0f ) );*/
-	temp = ( int )m_Timer.GetElapsedTime();
-	min2 = std::min( min2, temp );
-	max2 = std::max( max2, temp );
-	avg2 += temp;
+	m_Logger1.StopLog();
 
-	m_Timer.Start();
+	m_Logger2.StartLog();
 	m_MyText.RenderText( m_Direct3D11->GetDeviceContext(), m_Camera.GetOrthograficMatrix() );
-	temp = (int)m_Timer.GetElapsedTime();
-	min = std::min( min, temp );
-	max = std::max( max, temp );
-	avg += temp;
+	m_Logger2.StopLog();
 
-	m_Timer.Start();
 	m_Text->Render( m_Direct3D11->GetDeviceContext(), worldMatrix, m_Camera.GetOrthograficMatrix(), const_cast< char* >( s.c_str() ) );
-	temp = (int)m_Timer.GetElapsedTime();
-	/*min2 = std::min( min2, temp );
-	max2 = std::max( max2, temp );
-	avg2 += temp;*/
 }
 
 
-void System::Update()
+void System::Update( double dt )
 {
-	m_Camera.Update();
+	m_Timer.Start();
 
+	m_Camera.Update();
+	//s = std::to_string( dt );
 	framecount++;
 	if( m_Timer.GetTime() >= 1000000 )
 	{
+		double min, max, avg_;
+		avg_ = m_Logger1.GetAverage();
+		m_Logger1.GetMinMax( min, max );
+		m_Logger1.ResetLog();
+
 		m_Timer.Reset();
-		avg2 /= framecount;
-		avg /= framecount;
 		//s = std::to_string( framecount ) + "\n" + std::to_string( min2 ) + " | " + std::to_string( max2 ) + " | " + std::to_string( avg2 )/* + "\n"
 		//	+ "Hello World Hello World Hello World Hello World Hello World Hello World\n"
 		//"Hello World Hello World Hello World Hello World Hello World Hello World\n"
@@ -283,19 +281,16 @@ void System::Update()
 		//"Hello World Hello World Hello World Hello World Hello World Hello World\n"
 		//	"Hello World Hello World Hello World Hello World Hello World Hello World\n"*/;
 		DirectX::XMFLOAT3 cam = m_Camera.GetRotation();
-		s = std::to_string( cam.x ) + " | " + std::to_string( cam.y ) + " | " + std::to_string( cam.z ) + "\n" + std::to_string( min2 ) + " | " + std::to_string( max2 ) + " | " + std::to_string( avg2 );
+		s = std::to_string( cam.x ) + " | " + std::to_string( cam.y ) + " | " + std::to_string( cam.z ) + "\n" + std::to_string( dt ) + " | " + std::to_string( max ) + " | " + std::to_string( avg_ );
 
-		_itoa_s( framecount, buffer1, 10 );
-		_itoa_s( max, buffer2, 10 );
-		_itoa_s( avg, buffer3, 10 );
+		avg_ = m_Logger2.GetAverage();
+		m_Logger2.GetMinMax( min, max );
+		m_Logger2.ResetLog();
+		_itoa_s( min, buffer1, 10 );
+		_itoa_s( framecount, buffer2, 10 );
+		_itoa_s( avg_, buffer3, 10 );
 
 		framecount = 0;
-		avg = 0;
-		avg2 = 0;
-		min = UINT8_MAX;
-		max = -UINT8_MAX;
-		min2 = UINT8_MAX;
-		max2 = -UINT8_MAX;
 	}
 }
 
@@ -310,8 +305,14 @@ void System::HandleInput()
 
 	m_Camera.Movement( m_Input );
 
-	if( m_Input.MouseIsPressed( m_Input.Mouse_Right_Button ) )
-		m_Camera.LookAtPoint( { -10.0f, 2.0f, -6.0f } );
+	if( m_Input.MouseIsPressed( m_Input.Mouse_Middle_Button ) )
+		m_Camera.LookAtPoint( { 0.0f, 0.0f, 0.0f } );
+
+	if( m_Input.KeyIsPressed( VK_NUMPAD4 ))
+		m_Camera.SetRotation( { 0.0f, 0.0f, 0.0f } );
+
+	if( m_Input.KeyIsPressed( 'Q' ) )
+		m_Camera.CamReset();
 
 	// Must only be called once at the end.
 	m_Input.ResetMouse();

@@ -31,6 +31,12 @@
     <Filter Include="Header Files\TEST">
       <UniqueIdentifier>{60398154-1a63-42d7-8a37-9142f23523d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Misc">
+      <UniqueIdentifier>{ceae1c2c-adcf-4656-900f-6d38ac2fb46e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Misc">
+      <UniqueIdentifier>{41e8f3a8-d940-4326-bc25-4356bcd75cf8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Common.h">
@@ -46,9 +52,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Inc\Direct3D11.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Inc\MyText.h">
@@ -81,6 +84,12 @@
     <ClInclude Include="Inc\VertexType.h">
       <Filter>Header Files\TEST</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Timer.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\PerformanceLogger.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scr\System.cpp">
@@ -96,9 +105,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scr\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scr\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scr\MyText.cpp">
@@ -127,6 +133,12 @@
     </ClCompile>
     <ClCompile Include="Scr\New_OBJ-Loading.cpp">
       <Filter>Source Files\TEST</Filter>
+    </ClCompile>
+    <ClCompile Include="Scr\Timer.cpp">
+      <Filter>Source Files\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Scr\PerformanceLogger.cpp">
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

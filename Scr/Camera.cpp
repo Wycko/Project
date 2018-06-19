@@ -119,7 +119,7 @@ void Camera::Movement( const InputHandler& Input )
 
 void Camera::SetPositon( const DirectX::XMFLOAT3 Position )
 {
-	m_CamPosition = Position;
+	m_Postion = Position;
 }
 
 
@@ -132,7 +132,7 @@ DirectX::XMFLOAT3 Camera::GetPosition() const
 void Camera::SetRotation( const DirectX::XMFLOAT3 Rotation )
 {	
 	m_CamRotation.x = DirectX::XMConvertToRadians( Rotation.x );
-	m_CamRotation.y = DirectX::XMConvertToRadians( Rotation.y );
+	m_CamRotation.y = DirectX::XMConvertToRadians( -Rotation.y );
 	m_CamRotation.z = DirectX::XMConvertToRadians( Rotation.z );
 }
 
@@ -168,6 +168,14 @@ void Camera::LookAtPoint( const DirectX::XMFLOAT3 Point )
 		}
 	}
 
+	m_CamRotation.z = 0.0f;
 	m_CamRotation.x = YawRadian;
 	m_CamRotation.y = -PitchRadian;
+}
+
+
+void Camera::CamReset()
+{
+	SetRotation( { 0.0f, 0.0f, 0.0f } );
+	SetPositon( { 0.0f, 0.0f, 0.0f } );
 }

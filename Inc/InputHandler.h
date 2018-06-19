@@ -39,6 +39,7 @@ public:
 		Invalid = -1
 	};
 
+	bool KeyIsPressed( const UINT Key ) const;
 	bool KeyIsPressed( const KeyboardButton Key ) const;
 
 	bool MouseIsPressed( const MouseButton Button ) const;
@@ -60,6 +61,9 @@ private:
 	std::bitset< NumberOfButtons >		m_KeyStates;
 	std::bitset< NumberOfMouseButtons >	m_MouseStates;
 	DirectX::XMFLOAT4					m_Mouse;
+
+	static constexpr UINT				m_NumTotalKeys = 0xFF;
+	std::bitset< m_NumTotalKeys >		m_TotalKeys;
 };
 
 

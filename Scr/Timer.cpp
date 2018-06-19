@@ -103,11 +103,12 @@ double Timer::GetElapsedTime()
 
 double Timer::ConvertToMicroSeconds( LONGLONG& Ticks ) const
 {
-	Ticks *= 1000000;
-	Ticks /= m_Frequency;
+	double T = ( double )Ticks;
+	T *= 1000000;
+	T /= m_Frequency;
 
-	if( Ticks < 0 )
-		Ticks = 0;
+	if( T < 0 )
+		T = 0;
 
-	return ( double )Ticks;
+	return T;
 }

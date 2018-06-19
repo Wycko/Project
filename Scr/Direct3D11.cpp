@@ -218,7 +218,7 @@ void Direct3D11::BeginSceen()
 
 void Direct3D11::EndSceen()
 {
-	m_swapChain->Present( 1, 0 );
+	m_swapChain->Present( 0, 0 );
 }
 
 

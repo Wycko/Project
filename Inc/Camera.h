@@ -22,6 +22,7 @@ public:
 	DirectX::XMFLOAT3	GetRotation() const;
 
 	void				LookAtPoint( const DirectX::XMFLOAT3 Point );
+	void				CamReset();
 
 	DirectX::XMFLOAT4X4 GetProjectionMatrix() const
 	{
